@@ -92,7 +92,14 @@ export default function Hero() {
           >
             <FaGithub /> GitHub
           </a>
-          
+           <a
+    href="https://www.canva.com/design/DAGdWFSYNZ4/lNRNtCAngTXzqDBgv8eCyw/view" // ← mettez ici le chemin vers votre CV
+    target="_blank"
+    rel="noopener noreferrer"
+    className="px-6 py-3 bg-purple-600 hover:bg-purple-700 rounded-xl transition-all flex items-center gap-2 text-white font-medium focus:outline-none focus:ring-2 focus:ring-purple-500"
+  >
+    My CV
+  </a>
           <a
             href="https://linkedin.com/in/taher-ahmedou-39ba642bb"
             target="_blank"

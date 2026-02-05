@@ -1,66 +1,117 @@
 "use client";
 
-import { motion } from "framer-motion";
+import Image from "next/image";
+import { motion, useMotionValue, useTransform } from "framer-motion";
 import { FaCode, FaShieldAlt, FaBrain, FaGlobeAfrica } from "react-icons/fa";
 
 export default function About() {
+  // Motion values pour l'effet 3D
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
+
+  // Rotation en fonction de la souris
+  const rotateX = useTransform(y, [-50, 50], [15, -15]);
+  const rotateY = useTransform(x, [-50, 50], [-15, 15]);
+
   return (
-    <section className="max-w-5xl mx-auto px-6 py-20">
+    <section id="about" className="max-w-5xl mx-auto px-6 py-20">
+      {/* Title */}
       <motion.h2
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
         viewport={{ once: true }}
-        className="text-3xl font-bold mb-10"
+        className="text-3xl font-bold mb-12 text-white"
       >
         About Me
       </motion.h2>
 
-      <div className="grid md:grid-cols-2 gap-10">
+      <div className="grid md:grid-cols-2 gap-12 items-start">
+        {/* LEFT SIDE */}
         <motion.div
           initial={{ opacity: 0, x: -30 }}
           whileInView={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.6 }}
           viewport={{ once: true }}
         >
+          {/* Profile Photo with 3D Hover */}
+          <div className="flex justify-center mb-8">
+            <motion.div
+              style={{ rotateX, rotateY, perspective: 800 }}
+              onMouseMove={(e) => {
+                const rect = e.currentTarget.getBoundingClientRect();
+                const posX = e.clientX - rect.left - rect.width / 2;
+                const posY = e.clientY - rect.top - rect.height / 2;
+                x.set(posX);
+                y.set(posY);
+              }}
+              onMouseLeave={() => {
+                x.set(0);
+                y.set(0);
+              }}
+              className="relative w-44 h-44 rounded-full overflow-hidden border-4 border-blue-500/40 shadow-xl"
+            >
+              <Image
+                src="/images/profile.jpg"
+                alt="Taher Ahmedou"
+                fill
+                priority
+                className="object-cover"
+              />
+              {/* Glow effect */}
+              <motion.div
+                className="absolute inset-0 rounded-full pointer-events-none"
+                style={{ boxShadow: "0px 0px 40px rgba(59,130,246,0.6)" }}
+                initial={{ opacity: 0 }}
+                whileHover={{ opacity: 1 }}
+                transition={{ duration: 0.3 }}
+              />
+            </motion.div>
+          </div>
+
+          {/* Description */}
           <p className="text-gray-400 leading-relaxed mb-4">
-            I m <span className="text-white font-semibold">Taher Ahmedou</span>, 
-            a Mauritanian Backend & Full-Stack Developer and Master s student 
-            in Cyber Security at SupNum Institute.
+            I’m <span className="text-white font-semibold">Taher Ahmedou</span>, a
+            Mauritanian <span className="text-blue-400">Backend & Full-Stack Developer</span>{" "}
+            and Master’s student in <span className="text-green-400">Cyber Security</span>{" "}
+            at SupNum Institute.
           </p>
 
           <p className="text-gray-400 leading-relaxed mb-4">
-            My journey in computer science began with web development fundamentals 
-            and evolved into building complex backend systems with Spring Boot, 
-            OCR-powered applications, and secure software solutions.
+            My journey in computer science started with web development fundamentals
+            and evolved into building robust backend systems using Spring Boot,
+            OCR-powered applications, and secure APIs.
           </p>
 
           <p className="text-gray-400 leading-relaxed">
-            I m passionate about the intersection of AI, OCR technology, 
-            and cybersecurity. I enjoy solving complex problems with elegant 
-            code solutions and building reliable, scalable systems.
+            I’m passionate about the intersection of{" "}
+            <span className="text-purple-400">AI</span>,{" "}
+            <span className="text-purple-400">OCR technologies</span>, and{" "}
+            <span className="text-purple-400">cybersecurity</span>. I enjoy solving
+            complex problems and designing scalable, reliable software systems.
           </p>
 
           {/* Languages */}
-          <div className="mt-8">
-            <h3 className="text-white font-semibold mb-3">Languages</h3>
+          <div className="mt-10">
+            <h3 className="text-white font-semibold mb-4">Languages</h3>
             <div className="flex flex-wrap gap-3">
               <div className="flex items-center gap-2 px-4 py-2 bg-gray-900/50 rounded-lg">
-                <span className="text-lg">🇸🇦</span>
+                <span>🇸🇦</span>
                 <span className="text-gray-300">Arabic (Native)</span>
               </div>
               <div className="flex items-center gap-2 px-4 py-2 bg-gray-900/50 rounded-lg">
-                <span className="text-lg">🇫🇷</span>
+                <span>🇫🇷</span>
                 <span className="text-gray-300">French (C1)</span>
               </div>
               <div className="flex items-center gap-2 px-4 py-2 bg-gray-900/50 rounded-lg">
-                <span className="text-lg">🇬🇧</span>
+                <span>🇬🇧</span>
                 <span className="text-gray-300">English (B1)</span>
               </div>
             </div>
           </div>
         </motion.div>
 
+        {/* RIGHT SIDE - CARDS */}
         <motion.div
           initial={{ opacity: 0, x: 30 }}
           whileInView={{ opacity: 1, x: 0 }}
@@ -68,59 +119,69 @@ export default function About() {
           viewport={{ once: true }}
           className="space-y-6"
         >
-          <div className="flex items-start gap-4 p-4 bg-gray-900/30 rounded-xl">
-            <div className="p-3 bg-blue-600/20 rounded-lg">
-              <FaCode className="text-blue-400" size={24} />
-            </div>
-            <div>
-              <h3 className="text-white font-semibold mb-1">Full-Stack Development</h3>
-              <p className="text-gray-400 text-sm">
-                Building complete applications from backend APIs to frontend interfaces
-                using modern technologies like Spring Boot and React.
-              </p>
-            </div>
-          </div>
+          {/* Card 1 */}
+          <InfoCard
+            icon={<FaCode size={24} />}
+            title="Full-Stack Development"
+            text="Designing and building complete applications from backend APIs to modern frontend interfaces using Spring Boot, React, and Next.js."
+            color="blue"
+          />
 
-          <div className="flex items-start gap-4 p-4 bg-gray-900/30 rounded-xl">
-            <div className="p-3 bg-green-600/20 rounded-lg">
-              <FaShieldAlt className="text-green-400" size={24} />
-            </div>
-            <div>
-              <h3 className="text-white font-semibold mb-1">Cyber Security Focus</h3>
-              <p className="text-gray-400 text-sm">
-                Currently specializing in secure software design, API security, 
-                and cyber security principles as part of my Master s degree.
-              </p>
-            </div>
-          </div>
+          {/* Card 2 */}
+          <InfoCard
+            icon={<FaShieldAlt size={24} />}
+            title="Cyber Security Focus"
+            text="Specialized in secure software design, API security, and cybersecurity best practices as part of my Master’s studies."
+            color="green"
+          />
 
-          <div className="flex items-start gap-4 p-4 bg-gray-900/30 rounded-xl">
-            <div className="p-3 bg-purple-600/20 rounded-lg">
-              <FaBrain className="text-purple-400" size={24} />
-            </div>
-            <div>
-              <h3 className="text-white font-semibold mb-1">AI & OCR Integration</h3>
-              <p className="text-gray-400 text-sm">
-                Passionate about integrating OCR technology with AI for intelligent
-                text processing, summarization, and semantic analysis.
-              </p>
-            </div>
-          </div>
+          {/* Card 3 */}
+          <InfoCard
+            icon={<FaBrain size={24} />}
+            title="AI & OCR Integration"
+            text="Passionate about combining OCR technology with AI models to extract, analyze, and structure information intelligently."
+            color="purple"
+          />
 
-          <div className="flex items-start gap-4 p-4 bg-gray-900/30 rounded-xl">
-            <div className="p-3 bg-yellow-600/20 rounded-lg">
-              <FaGlobeAfrica className="text-yellow-400" size={24} />
-            </div>
-            <div>
-              <h3 className="text-white font-semibold mb-1">Mauritanian Developer</h3>
-              <p className="text-gray-400 text-sm">
-                Contributing to the growing tech ecosystem in Mauritania through
-                academic projects and continuous learning.
-              </p>
-            </div>
-          </div>
+          {/* Card 4 */}
+          <InfoCard
+            icon={<FaGlobeAfrica size={24} />}
+            title="Mauritanian Developer"
+            text="Proud to contribute to the growing tech ecosystem in Mauritania through academic projects, innovation, and continuous learning."
+            color="yellow"
+          />
         </motion.div>
       </div>
     </section>
+  );
+}
+
+/* Reusable Card Component */
+function InfoCard({
+  icon,
+  title,
+  text,
+  color,
+}: {
+  icon: React.ReactNode;
+  title: string;
+  text: string;
+  color: "blue" | "green" | "purple" | "yellow";
+}) {
+  const colors: any = {
+    blue: "bg-blue-600/20 text-blue-400",
+    green: "bg-green-600/20 text-green-400",
+    purple: "bg-purple-600/20 text-purple-400",
+    yellow: "bg-yellow-600/20 text-yellow-400",
+  };
+
+  return (
+    <div className="flex items-start gap-4 p-5 bg-gray-900/30 rounded-xl">
+      <div className={`p-3 rounded-lg ${colors[color]}`}>{icon}</div>
+      <div>
+        <h4 className="text-white font-semibold mb-1">{title}</h4>
+        <p className="text-gray-400 text-sm">{text}</p>
+      </div>
+    </div>
   );
 }
