@@ -1,0 +1,41 @@
+/* app/theme.css */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ===== Couleurs principales ===== */
+:root {
+  --color-bg: #000000;
+  --color-fg: #ffffff;
+
+  /* Gris */
+  --color-gray-300: #d1d5db;
+  --color-gray-400: #9ca3af;
+  --color-gray-500: #6b7280;
+  --color-gray-800: #1f2937;
+
+  /* Bleu principal */
+  --color-primary: #2563eb; /* blue-600 */
+  --color-primary-dark: #1d4ed8; /* blue-700 */
+
+  /* Accent & secondaire */
+  --color-secondary: #06b6d4; /* cyan-500 */
+  --color-accent: #8b5cf6; /* violet-500 */
+}
+
+/* ===== Mode sombre ===== */
+body.dark {
+  --color-bg: #121212;
+  --color-fg: #f0f0f0;
+  --color-gray-300: #d1d5db;
+  --color-gray-400: #9ca3af;
+  --color-gray-500: #6b7280;
+  --color-gray-800: #1f2937;
+  --color-primary: #2563eb;
+  --color-primary-dark: #1d4ed8;
+  --color-secondary: #0d9488;
+  --color-accent: #7c3aed;
+}
+
+/* ===== Utilisation simplifiée dans Tailwind ===== */
+/* Exemple : bg-[color:var(--color-bg)], text-[color:var(--color-fg)] */
