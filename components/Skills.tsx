@@ -6,7 +6,7 @@ import { SiSpringboot, SiCodeigniter, SiNextdotjs, SiTailwindcss, SiApachekafka,
 
 const skills = {
   backend: [
-    { name: "Java", icon: FaJava, color: "text-red-500" },
+    { name: "Java", icon: FaJava, color: "text-blue-500" },
     { name: "Spring Boot", icon: SiSpringboot, color: "text-green-500" },
     { name: "PHP", icon: FaPhp, color: "text-purple-500" },
     { name: "CodeIgniter", icon: SiCodeigniter, color: "text-red-400" },
@@ -20,12 +20,12 @@ const skills = {
   ],
   tools: [
     { name: "Docker", icon: FaDocker, color: "text-blue-400" },
-    { name: "Kafka", icon: SiApachekafka, color: "text-black" },
+    { name: "Kafka", icon: SiApachekafka, color: "text-yellow-400" },
     { name: "MongoDB", icon: SiMongodb, color: "text-green-500" },
     { name: "MySQL", icon: SiMysql, color: "text-blue-500" },
     { name: "PostgreSQL", icon: SiPostgresql, color: "text-blue-400" },
     { name: "Git", icon: FaGitAlt, color: "text-orange-500" },
-    { name: "Linux", icon: FaLinux, color: "text-yellow-500" },
+    { name: "Linux", icon: FaLinux, color: "text-gray-300" },
   ]
 };
 
@@ -37,14 +37,12 @@ export default function Skills() {
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
         viewport={{ once: true }}
-        className="text-3xl font-bold mb-12 text-center"
+        className="text-3xl md:text-4xl font-bold mb-12 text-center text-gradient"
       >
-        <span className="bg-gradient-to-r from-blue-500 to-cyan-400 bg-clip-text text-transparent">
-          Technical Skills
-        </span>
+        Technical Skills
       </motion.h2>
 
-      <div className="grid md:grid-cols-3 gap-8">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
         {Object.entries(skills).map(([category, skillList], idx) => (
           <motion.div
             key={category}
@@ -52,7 +50,7 @@ export default function Skills() {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: idx * 0.2 }}
             viewport={{ once: true }}
-            className="bg-gray-900/50 backdrop-blur-sm rounded-xl p-6 border border-gray-800 hover:scale-105 transition-transform"
+            className="glass-effect p-6 border border-gray-800 hover:scale-105 transition-transform shadow-md"
           >
             <h3 className="text-xl font-semibold text-white mb-6 flex items-center gap-2">
               {category === "backend" && <FaDatabase className="text-blue-500" />}
@@ -67,11 +65,7 @@ export default function Skills() {
               viewport={{ once: true }}
               variants={{
                 hidden: {},
-                visible: {
-                  transition: {
-                    staggerChildren: 0.1
-                  }
-                }
+                visible: { transition: { staggerChildren: 0.1 } }
               }}
               className="grid grid-cols-2 gap-3"
             >
@@ -83,10 +77,11 @@ export default function Skills() {
                     visible: { opacity: 1, y: 0 }
                   }}
                   whileHover={{ scale: 1.1 }}
-                  className="flex items-center gap-3 px-3 py-2 bg-gray-800/50 rounded-lg border border-gray-700 text-gray-300 hover:text-white cursor-default transition-colors"
+                  className="flex items-center gap-3 px-3 py-2 bg-gray-800/50 rounded-lg border border-gray-700 text-gray-300 hover:text-white hover:shadow-lg transition-colors cursor-default"
+                  title={skill.name}
                 >
-                  <skill.icon className={`${skill.color} text-xl`} />
-                  <span>{skill.name}</span>
+                  <skill.icon className={`${skill.color} text-2xl`} />
+                  <span className="font-medium">{skill.name}</span>
                 </motion.li>
               ))}
             </motion.ul>

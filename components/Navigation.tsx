@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { FaHome, FaUser, FaGraduationCap, FaProjectDiagram, FaCode, FaEnvelope } from "react-icons/fa";
 
@@ -16,24 +16,24 @@ const navItems = [
 export default function Navigation() {
   const [activeSection, setActiveSection] = useState("home");
 
-  useEffect(() => {
-    const handleScroll = () => {
-      const sections = navItems.map(item => item.href.substring(1));
-      const current = sections.find(section => {
-        const element = document.getElementById(section);
-        if (element) {
-          const rect = element.getBoundingClientRect();
-          return rect.top <= 120 && rect.bottom >= 120;
-        }
-        return false;
-      });
-      if (current) setActiveSection(current);
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    handleScroll(); // check on mount
-    return () => window.removeEventListener("scroll", handleScroll);
+  const handleScroll = useCallback(() => {
+    const sections = navItems.map(item => item.href.substring(1));
+    const current = sections.find(section => {
+      const element = document.getElementById(section);
+      if (element) {
+        const rect = element.getBoundingClientRect();
+        return rect.top <= 120 && rect.bottom >= 120;
+      }
+      return false;
+    });
+    if (current) setActiveSection(current);
   }, []);
+
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+    handleScroll();
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [handleScroll]);
 
   return (
     <motion.nav
@@ -48,23 +48,25 @@ export default function Navigation() {
             <motion.a
               key={item.label}
               href={item.href}
-              whileHover={{ scale: 1.15 }}
+              title={item.label} // Tooltip pour accessibilité mobile
+              whileHover={{ scale: 1.15, y: -2 }}
               whileTap={{ scale: 0.95 }}
-              className={`flex items-center gap-2 px-4 py-2 rounded-full transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+              className={`relative flex items-center gap-2 px-4 py-2 rounded-full transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 ${
                 isActive
-                  ? "bg-blue-600 text-white shadow-md"
+                  ? "bg-blue-600 text-white shadow-md shadow-blue-500/50"
                   : "text-gray-400 hover:text-white hover:bg-gray-800"
               }`}
               aria-current={isActive ? "page" : undefined}
             >
               <item.icon size={18} />
               <span className="hidden md:inline text-sm font-medium">{item.label}</span>
+
               {/* Animated active indicator */}
               {isActive && (
                 <AnimatePresence>
                   <motion.span
                     layoutId="activeNavIndicator"
-                    className="absolute inset-0 rounded-full bg-blue-600/30 z-0"
+                    className="absolute inset-0 rounded-full bg-blue-600/20 z-0"
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}

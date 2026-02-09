@@ -6,33 +6,42 @@ import { FaGithub, FaLinkedin, FaArrowDown } from "react-icons/fa";
 export default function Hero() {
   const techs = ["Spring Boot", "React", "Docker", "MongoDB", "Kafka", "OCR", "AI", "Cyber Security"];
 
+  const container = {
+    hidden: { opacity: 0 },
+    visible: { 
+      opacity: 1, 
+      transition: { staggerChildren: 0.1 } 
+    }
+  };
+
+  const item = {
+    hidden: { opacity: 0, y: 10 },
+    visible: { opacity: 1, y: 0 }
+  };
+
   return (
     <motion.section
       id="home"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.8 }}
+      initial="hidden"
+      animate="visible"
+      variants={container}
       className="min-h-screen flex flex-col justify-center items-center text-center px-6 bg-gradient-to-b from-black via-gray-900 to-gray-800 relative"
     >
       <div className="max-w-3xl mx-auto">
 
         {/* Nom */}
         <motion.h1
-          initial={{ y: 40, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ delay: 0.1, duration: 0.8 }}
-          className="text-5xl md:text-6xl font-bold mb-4"
+          variants={item}
+          whileHover={{ scale: 1.02, rotate: 0.5 }}
+          transition={{ type: "spring", stiffness: 300 }}
+          className="text-5xl md:text-6xl font-bold mb-4 bg-gradient-to-r from-blue-500 via-cyan-400 to-purple-500 bg-clip-text text-transparent"
         >
-          <span className="bg-gradient-to-r from-blue-500 to-cyan-400 bg-clip-text text-transparent">
-            Taher Ahmedou
-          </span>
+          Taher Ahmedou
         </motion.h1>
 
         {/* Titre */}
         <motion.h2
-          initial={{ y: 30, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ delay: 0.2, duration: 0.8 }}
+          variants={item}
           className="text-2xl md:text-3xl font-semibold text-white mb-2"
         >
           Backend & Full-Stack Developer
@@ -40,9 +49,7 @@ export default function Hero() {
 
         {/* Sous-titre */}
         <motion.p
-          initial={{ y: 20, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ delay: 0.3, duration: 0.8 }}
+          variants={item}
           className="text-xl text-gray-300 mb-6"
         >
           Master Student in Cyber Security — SupNum Institute, Mauritania
@@ -50,27 +57,26 @@ export default function Hero() {
 
         {/* Description */}
         <motion.p
-          initial={{ y: 20, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ delay: 0.4, duration: 0.8 }}
+          variants={item}
           className="text-gray-400 text-lg mb-10 max-w-2xl mx-auto"
         >
-          Specializing in secure backend systems, OCR-powered applications, and scalable solutions with Spring Boot, React, and modern cloud technologies.
+          Specializing in <span className="text-cyan-400 font-semibold">secure backend systems</span>, 
+          <span className="text-purple-400 font-semibold"> OCR-powered applications</span>, and 
+          <span className="text-blue-400 font-semibold"> scalable solutions</span> with Spring Boot, React, and modern cloud technologies.
         </motion.p>
 
         {/* Technologies */}
         <motion.div
-          initial={{ y: 20, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ delay: 0.5, duration: 0.8 }}
+          variants={container}
           className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-4 gap-3 mb-10"
         >
-          {techs.map((tech, index) => (
+          {techs.map((tech) => (
             <motion.span
               key={tech}
-              whileHover={{ scale: 1.05, y: -2 }}
+              variants={item}
+              whileHover={{ scale: 1.1, y: -3, boxShadow: "0 0 10px rgba(59,130,246,0.5)" }}
               transition={{ type: "spring", stiffness: 300 }}
-              className="px-4 py-2 bg-gray-800/50 backdrop-blur-sm rounded-lg text-gray-300 border border-gray-700 cursor-default text-sm sm:text-base"
+              className="px-4 py-2 bg-gray-800/50 backdrop-blur-sm rounded-lg text-gray-300 border border-gray-700 cursor-default text-sm sm:text-base hover:text-white"
             >
               {tech}
             </motion.span>
@@ -79,52 +85,60 @@ export default function Hero() {
 
         {/* Boutons */}
         <motion.div
-          initial={{ y: 20, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ delay: 0.6, duration: 0.8 }}
+          variants={container}
           className="flex flex-wrap justify-center gap-4"
         >
-          <a
+          <motion.a
+            variants={item}
             href="https://github.com/TAher-Ahmedou"
             target="_blank"
             rel="noopener noreferrer"
-            className="px-6 py-3 bg-blue-600 hover:bg-blue-700 rounded-xl transition-all flex items-center gap-2 text-white font-medium focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="px-6 py-3 bg-gradient-to-r from-blue-600 to-cyan-500 rounded-xl flex items-center gap-2 text-white font-medium shadow-md hover:shadow-lg hover:-translate-y-1 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            aria-label="GitHub Profile"
           >
             <FaGithub /> GitHub
-          </a>
-           <a
-    href="https://www.canva.com/design/DAGdWFSYNZ4/lNRNtCAngTXzqDBgv8eCyw/view" // ← mettez ici le chemin vers votre CV
-    target="_blank"
-    rel="noopener noreferrer"
-    className="px-6 py-3 bg-purple-600 hover:bg-purple-700 rounded-xl transition-all flex items-center gap-2 text-white font-medium focus:outline-none focus:ring-2 focus:ring-purple-500"
-  >
-    My CV
-  </a>
-          <a
+          </motion.a>
+
+          <motion.a
+            variants={item}
+            href="https://www.canva.com/design/DAGdWFSYNZ4/lNRNtCAngTXzqDBgv8eCyw/view"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="px-6 py-3 bg-gradient-to-r from-purple-600 to-pink-500 rounded-xl flex items-center gap-2 text-white font-medium shadow-md hover:shadow-lg hover:-translate-y-1 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-purple-500"
+            aria-label="Download CV"
+          >
+            My CV
+          </motion.a>
+
+          <motion.a
+            variants={item}
             href="https://linkedin.com/in/taher-ahmedou-39ba642bb"
             target="_blank"
             rel="noopener noreferrer"
-            className="px-6 py-3 bg-gray-800 hover:bg-gray-700 border border-gray-700 rounded-xl transition-all flex items-center gap-2 text-white font-medium focus:outline-none focus:ring-2 focus:ring-gray-500"
+            className="px-6 py-3 bg-gray-800 border border-gray-700 rounded-xl flex items-center gap-2 text-white font-medium shadow-md hover:shadow-lg hover:-translate-y-1 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-gray-500"
+            aria-label="LinkedIn Profile"
           >
             <FaLinkedin /> LinkedIn
-          </a>
-          
-          <a
+          </motion.a>
+
+          <motion.a
+            variants={item}
             href="#contact"
-            className="px-6 py-3 border border-cyan-500 text-cyan-400 hover:bg-cyan-500/10 rounded-xl transition-all focus:outline-none focus:ring-2 focus:ring-cyan-400"
+            className="px-6 py-3 border border-cyan-500 text-cyan-400 rounded-xl flex items-center gap-2 font-medium shadow-md hover:shadow-lg hover:-translate-y-1 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-cyan-400"
+            aria-label="Contact Me"
           >
             Contact Me
-          </a>
+          </motion.a>
         </motion.div>
       </div>
 
       {/* Scroll down hint */}
       <motion.div
         className="absolute bottom-6 left-1/2 transform -translate-x-1/2 text-gray-400"
-        animate={{ y: [0, 10, 0] }}
+        animate={{ y: [0, 8, 0], opacity: [0.7, 1, 0.7] }}
         transition={{ repeat: Infinity, duration: 1.5 }}
       >
-        <FaArrowDown size={20} />
+        <FaArrowDown size={24} className="animate-bounce text-gray-400" />
       </motion.div>
     </motion.section>
   );

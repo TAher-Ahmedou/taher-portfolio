@@ -1,15 +1,19 @@
 "use client";
 
-import { motion, Variants } from "framer-motion";
+import { motion, Variants, MotionProps } from "framer-motion";
 
-interface AnimatedSectionProps {
+interface AnimatedSectionProps extends MotionProps {
   children: React.ReactNode;
   className?: string;
   delay?: number;
   duration?: number;
   yOffset?: number;
   id?: string;
-  tag?: "section" | "div" | "article"; // élément HTML flexible
+  tag?: keyof JSX.IntrinsicElements;
+  triggerOnce?: boolean;       // déclenche l'animation qu'une seule fois
+  viewportAmount?: number;     // % de la section visible pour déclencher
+  staggerChildren?: number;    // optionnel pour animer les enfants
+  scale?: boolean;             // si on veut scale + fade
 }
 
 export default function AnimatedSection({
@@ -20,12 +24,17 @@ export default function AnimatedSection({
   yOffset = 40,
   id,
   tag = "section",
+  triggerOnce = true,
+  viewportAmount = 0.2,
+  staggerChildren,
+  scale = false,
+  ...motionProps
 }: AnimatedSectionProps) {
   const MotionTag = motion[tag];
 
   const variants: Variants = {
-    hidden: { opacity: 0, y: yOffset },
-    visible: { opacity: 1, y: 0 },
+    hidden: { opacity: 0, y: yOffset, scale: scale ? 0.95 : 1 },
+    visible: { opacity: 1, y: 0, scale: 1, transition: { staggerChildren } },
   };
 
   return (
@@ -34,9 +43,10 @@ export default function AnimatedSection({
       className={className}
       initial="hidden"
       whileInView="visible"
-      viewport={{ once: true, margin: "-50px" }} // Déclenche un peu avant la vue
+      viewport={{ once: triggerOnce, amount: viewportAmount }}
       transition={{ duration, delay, ease: "easeOut" }}
       variants={variants}
+      {...motionProps} // Permet de passer whileHover, onClick, etc.
     >
       {children}
     </MotionTag>
