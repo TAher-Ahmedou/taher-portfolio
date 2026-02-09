@@ -1,6 +1,7 @@
 "use client";
 
 import { motion, Variants, MotionProps } from "framer-motion";
+import React from "react";
 
 interface AnimatedSectionProps extends MotionProps {
   children: React.ReactNode;
@@ -9,11 +10,11 @@ interface AnimatedSectionProps extends MotionProps {
   duration?: number;
   yOffset?: number;
   id?: string;
-  tag?: keyof JSX.IntrinsicElements;
-  triggerOnce?: boolean;       // déclenche l'animation qu'une seule fois
-  viewportAmount?: number;     // % de la section visible pour déclencher
-  staggerChildren?: number;    // optionnel pour animer les enfants
-  scale?: boolean;             // si on veut scale + fade
+  tag?: keyof JSX.IntrinsicElements; // div, section, article...
+  triggerOnce?: boolean;
+  viewportAmount?: number;
+  staggerChildren?: number;
+  scale?: boolean;
 }
 
 export default function AnimatedSection({
@@ -30,7 +31,8 @@ export default function AnimatedSection({
   scale = false,
   ...motionProps
 }: AnimatedSectionProps) {
-  const MotionTag = motion[tag];
+  // ✅ Typage TS-safe pour n’importe quel tag HTML
+  const MotionTag = motion[tag as keyof JSX.IntrinsicElements] as unknown as React.ComponentType<any>;
 
   const variants: Variants = {
     hidden: { opacity: 0, y: yOffset, scale: scale ? 0.95 : 1 },
