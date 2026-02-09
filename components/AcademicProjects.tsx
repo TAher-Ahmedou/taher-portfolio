@@ -9,6 +9,7 @@ import {
   FaUsers,
   FaDatabase,
   FaShoppingCart,
+  FaLock,
 } from "react-icons/fa";
 import {
   SiSpringboot,
@@ -19,14 +20,14 @@ import {
   SiMongodb,
   SiPrestashop,
   SiApachekafka,
-} from "react-icons/si";
+} from "react-icons/si"; // SiEasyrsa n'existe pas, tu peux remplacer par un autre icône lock
 
 // Liste des projets
 const projects = [
   {
     title: "OCR + AI Application",
     description:
-      "Advanced application for text extraction using OCR, with AI-powered text summarization and semantic analysis. Built with Spring Boot, React, Elasticsearch, and Kafka.",
+      "Application avancée pour l'extraction de texte à partir d'images avec analyse sémantique et résumé automatique. Développé avec Spring Boot, React, Elasticsearch et Kafka.",
     semester: "L3 - Semester 5",
     technologies: ["Spring Boot", "React", "OCR", "AI", "Elasticsearch", "Kafka"],
     icons: [SiSpringboot, FaRobot, FaDatabase, SiElasticsearch, SiApachekafka],
@@ -36,7 +37,7 @@ const projects = [
   {
     title: "Visitor Management System",
     description:
-      "Comprehensive visitor management system with OCR-based visitor recognition. Includes Spring Boot backend, React web interface, and mobile application.",
+      "Système complet de gestion des visiteurs avec reconnaissance OCR. Comprend un backend Spring Boot, une interface web React et une application mobile.",
     semester: "L3 - Semester 6",
     technologies: ["Spring Boot", "React", "Mobile", "OCR"],
     icons: [SiSpringboot, FaDoorOpen, FaUsers],
@@ -44,19 +45,29 @@ const projects = [
     bgColor: "bg-yellow-900/20",
   },
   {
+    title: "PKI & HTTPS Deployment",
+    description:
+      "Mise en place d'une infrastructure à clés publiques (PKI) sécurisée avec EasyRSA et migration de pages web HTTP vers HTTPS.",
+    semester: "L3 - Semester 6",
+    technologies: ["PKI", "EasyRSA", "HTTPS", "Security"],
+    icons: [FaLock],
+    color: "border-teal-500",
+    bgColor: "bg-teal-900/20",
+  },
+  {
     title: "SMS Management System",
     description:
-      "PHP application developed with CodeIgniter for managing SMS services using Oracle database. Developed across semesters 3 and 4.",
+      "Application PHP développée avec CodeIgniter pour la gestion des services SMS via une base Oracle. Projet des semestres 3 et 4.",
     semester: "L2 - Semesters 3-4",
     technologies: ["PHP", "CodeIgniter", "Oracle", "Git"],
-    icons: [SiCodeigniter, SiOracle],
+    icons: [SiCodeigniter, SiOracle, FaDatabase],
     color: "border-purple-500",
     bgColor: "bg-purple-900/20",
   },
   {
     title: "Client Management Application",
     description:
-      "Java EE application for client management using Apache Tomcat server. Developed during semester 4.",
+      "Application Java EE pour la gestion des clients sur serveur Apache Tomcat. Projet semestre 4.",
     semester: "L2 - Semester 4",
     technologies: ["Java EE", "JEE", "Apache Tomcat"],
     icons: [SiApachetomcat, FaUsers],
@@ -66,7 +77,7 @@ const projects = [
   {
     title: "E-commerce Boutique",
     description:
-      "Online store built with PrestaShop for semester 2 project. Implemented product management and basic e-commerce functionality.",
+      "Boutique en ligne développée avec PrestaShop. Gestion des produits et fonctionnalités e-commerce de base.",
     semester: "L1 - Semester 2",
     technologies: ["PrestaShop", "E-commerce"],
     icons: [SiPrestashop, FaShoppingCart],
@@ -76,7 +87,7 @@ const projects = [
   {
     title: "Big Data Exercises",
     description:
-      "Practical exercises with Apache Kafka and NoSQL databases (MongoDB) for big data processing and management.",
+      "Exercices pratiques avec Apache Kafka et bases NoSQL (MongoDB) pour le traitement et la gestion de Big Data.",
     semester: "L3 - Semester 5",
     technologies: ["Kafka", "MongoDB", "NoSQL", "Big Data"],
     icons: [SiApachekafka, SiMongodb, FaDatabase],
@@ -95,7 +106,6 @@ const yearColors: Record<string, string> = {
 export default function AcademicProjects() {
   const [selectedYear, setSelectedYear] = useState<string | null>(null);
 
-  // Filtrer projets selon année
   const filteredProjects = selectedYear
     ? projects.filter((p) => p.semester.startsWith(selectedYear))
     : projects;
@@ -110,7 +120,7 @@ export default function AcademicProjects() {
         viewport={{ once: true }}
         className="text-3xl md:text-4xl font-bold mb-4 text-white text-center"
       >
-        Academic Projects
+        Academic & Professional Projects
       </motion.h2>
 
       <motion.p
@@ -120,8 +130,7 @@ export default function AcademicProjects() {
         viewport={{ once: true }}
         className="text-gray-400 mb-10 text-center max-w-3xl mx-auto"
       >
-        Projects developed during my Licence degree at SupNum Institute,
-        organized by academic year.
+        A selection of my projects during my Licence degree at SupNum Institute, including professional implementations and academic exercises.
       </motion.p>
 
       {/* Légende interactive années */}
@@ -205,23 +214,18 @@ export default function AcademicProjects() {
           Academic Journey Summary
         </h3>
         <div className="grid md:grid-cols-3 gap-6">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
-          >
+          {/* L1 */}
+          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}>
             <h4 className="text-orange-400 font-semibold mb-2 text-lg">L1 - First Year</h4>
             <ul className="text-gray-400 text-sm space-y-1">
-              <li>• Static Website (HTML/CSS)</li>
-              <li>• E-commerce with PrestaShop</li>
+              <li>• S1: Static Website development (HTML/CSS)</li>
+              <li>• S2: E-commerce project with PrestaShop</li>
               <li>• Web Development Fundamentals</li>
             </ul>
           </motion.div>
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4 }}
-          >
+
+          {/* L2 */}
+          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }}>
             <h4 className="text-green-400 font-semibold mb-2 text-lg">L2 - Second Year</h4>
             <ul className="text-gray-400 text-sm space-y-1">
               <li>• SMS Management System (PHP/Oracle)</li>
@@ -229,15 +233,14 @@ export default function AcademicProjects() {
               <li>• Adobe Suite Training</li>
             </ul>
           </motion.div>
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.6 }}
-          >
+
+          {/* L3 */}
+          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} transition={{ delay: 0.6 }}>
             <h4 className="text-blue-400 font-semibold mb-2 text-lg">L3 - Third Year</h4>
             <ul className="text-gray-400 text-sm space-y-1">
               <li>• OCR + AI Application (Spring Boot/React)</li>
               <li>• Visitor Management System</li>
+              <li>• PKI & HTTPS Deployment (EasyRSA)</li>
               <li>• Big Data with Kafka & MongoDB</li>
               <li>• UI/UX Certification (Figma)</li>
             </ul>
