@@ -10,7 +10,7 @@ interface AnimatedSectionProps extends MotionProps {
   duration?: number;
   yOffset?: number;
   id?: string;
-  tag?: keyof JSX.IntrinsicElements; // div, section, article...
+  tag?: "section" | "div" | "article" | "main"; // limiter aux tags HTML sûrs
   triggerOnce?: boolean;
   viewportAmount?: number;
   staggerChildren?: number;
@@ -31,8 +31,15 @@ export default function AnimatedSection({
   scale = false,
   ...motionProps
 }: AnimatedSectionProps) {
-  // ✅ Typage TS-safe pour n’importe quel tag HTML
-  const MotionTag = motion[tag as keyof JSX.IntrinsicElements] as unknown as React.ComponentType<any>;
+  // ✅ On ne fait plus motion[tag], TS-friendly
+  const MotionTag =
+    tag === "div"
+      ? motion.div
+      : tag === "article"
+      ? motion.article
+      : tag === "main"
+      ? motion.main
+      : motion.section; // default section
 
   const variants: Variants = {
     hidden: { opacity: 0, y: yOffset, scale: scale ? 0.95 : 1 },
@@ -48,7 +55,7 @@ export default function AnimatedSection({
       viewport={{ once: triggerOnce, amount: viewportAmount }}
       transition={{ duration, delay, ease: "easeOut" }}
       variants={variants}
-      {...motionProps} // Permet de passer whileHover, onClick, etc.
+      {...motionProps}
     >
       {children}
     </MotionTag>
