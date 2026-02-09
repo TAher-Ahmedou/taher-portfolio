@@ -52,7 +52,7 @@ export default function About() {
               className="relative w-44 h-44 rounded-full overflow-hidden border-4 border-blue-500/40 shadow-xl"
             >
               <Image
-                src="/images/profile.jpg"
+                src="/images/test.jpeg"
                 alt="Taher Ahmedou"
                 fill
                 priority
