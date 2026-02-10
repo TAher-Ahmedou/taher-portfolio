@@ -24,9 +24,9 @@ import {
   SiAmazonaws,
 } from "react-icons/si";
 
-/* =======================
-   Liste des projets
-======================= */
+// =======================
+// Liste des projets
+// =======================
 const projects = [
   {
     title: "OCR + AI Application",
@@ -120,14 +120,15 @@ const projects = [
   },
 ];
 
-/* =======================
-   Couleurs par année
-======================= */
+// =======================
+// Couleurs par année
+// =======================
 const yearColors: Record<string, string> = {
   L1: "bg-orange-500",
   L2: "bg-green-500",
   L3: "bg-blue-500",
 };
+
 export default function AcademicProjects() {
   const [selectedYear, setSelectedYear] = useState<string | null>(null);
   const sectionRef = useRef<HTMLDivElement>(null);
@@ -137,18 +138,25 @@ export default function AcademicProjects() {
     ? projects.filter((p) => p.semester.startsWith(selectedYear))
     : projects;
 
-  // Scroll automatique si hash dans l'URL
+  // Scroll automatique si hash dans l'URL (compatible WebView mobile)
   useEffect(() => {
-    const hash = window.location.hash;
-    if (hash === "#academic-projects" && sectionRef.current) {
-      setTimeout(() => {
-        sectionRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
-      }, 300);
-    }
+    const handleScrollToHash = () => {
+      if (window.location.hash === "#academic-projects" && sectionRef.current) {
+        sectionRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+    };
+
+    // Timeout pour s'assurer que le DOM est prêt
+    setTimeout(handleScrollToHash, 500);
+
+    // Écoute des changements de hash dynamiques
+    window.addEventListener("hashchange", handleScrollToHash);
+
+    return () => window.removeEventListener("hashchange", handleScrollToHash);
   }, []);
 
   return (
-    <div ref={sectionRef} id="academic-projects">
+    <section ref={sectionRef} id="academic-projects">
       <AnimatedSection className="max-w-6xl mx-auto px-6 py-20" yOffset={50}>
         {/* Titre */}
         <motion.h2
@@ -224,6 +232,6 @@ export default function AcademicProjects() {
           ))}
         </div>
       </AnimatedSection>
-    </div>
+    </section>
   );
 }
