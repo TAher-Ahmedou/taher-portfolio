@@ -11,6 +11,7 @@ import AcademicProjects from "@/components/AcademicProjects";
 import Security from "@/components/security";
 import Skills from "@/components/Skills";
 import Contact from "@/components/Contact";
+import Projects from "@/components/Projects";
 
 type SectionWrapperProps = {
   id: string;
@@ -65,7 +66,11 @@ export default function Home() {
           <AcademicProjects />
         </Suspense>
       </SectionWrapper>
-
+      <SectionWrapper id="projects">
+        <Suspense fallback={<div className="text-center text-gray-400 py-24">Loading Projects...</div>}>
+          <Projects />
+        </Suspense>
+      </SectionWrapper>
       <SectionWrapper id="security">
         <Suspense fallback={<div className="text-center text-gray-400 py-24">Loading Security...</div>}>
           <Security />
