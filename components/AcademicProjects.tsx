@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { motion } from "framer-motion";
 import {
   FaRobot,
@@ -119,6 +119,9 @@ const projects = [
   },
 ];
 
+// =======================
+// Couleurs par année
+// =======================
 const yearColors: Record<string, string> = {
   L1: "bg-orange-500",
   L2: "bg-green-500",
@@ -127,14 +130,6 @@ const yearColors: Record<string, string> = {
 
 export default function AcademicProjects() {
   const [selectedYear, setSelectedYear] = useState<string | null>(null);
-  const [mounted, setMounted] = useState(false);
-
-  // ⭐ LA CORRECTION IMPORTANTE
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  if (!mounted) return null;
 
   const filteredProjects = selectedYear
     ? projects.filter((p) => p.semester.startsWith(selectedYear))
@@ -142,6 +137,7 @@ export default function AcademicProjects() {
 
   return (
     <section id="academic-projects" className="max-w-6xl mx-auto px-6 py-20">
+      {/* Titre */}
       <motion.h2
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
@@ -172,7 +168,7 @@ export default function AcademicProjects() {
         ))}
       </div>
 
-      {/* Cartes */}
+      {/* Cartes projets */}
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
         {filteredProjects.map((project, index) => (
           <motion.div
@@ -188,26 +184,16 @@ export default function AcademicProjects() {
             className={`border-l-4 rounded-xl p-6 ${project.color} ${project.bgColor} backdrop-blur-md`}
           >
             <div className="flex justify-between items-center mb-3">
-              <span className="text-xs text-gray-300 font-medium">
-                {project.semester}
-              </span>
+              <span className="text-xs text-gray-300 font-medium">{project.semester}</span>
               <div className="flex gap-2">
                 {project.icons.map((Icon, i) => (
-                  <Icon
-                    key={i}
-                    size={20}
-                    className="text-gray-300 hover:text-white transition-colors"
-                  />
+                  <Icon key={i} size={20} className="text-gray-300 hover:text-white transition-colors" />
                 ))}
               </div>
             </div>
 
-            <h3 className="text-xl md:text-2xl font-bold text-white mb-2">
-              {project.title}
-            </h3>
-            <p className="text-gray-300 text-sm md:text-base">
-              {project.description}
-            </p>
+            <h3 className="text-xl md:text-2xl font-bold text-white mb-2">{project.title}</h3>
+            <p className="text-gray-300 text-sm md:text-base">{project.description}</p>
 
             <div className="flex flex-wrap gap-2 mt-4">
               {project.technologies.map((tech) => (

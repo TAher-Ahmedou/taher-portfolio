@@ -3,30 +3,18 @@
 import { motion, Variants, MotionProps } from "framer-motion";
 import React from "react";
 
-/**
- * AnimatedSection
- * ----------------
- * Wrapper générique pour animer une section lors de son apparition à l'écran.
- * Compatible TypeScript, mobile, WebView (LinkedIn, GitHub, Facebook).
- */
 interface AnimatedSectionProps extends MotionProps {
   children: React.ReactNode;
   className?: string;
-
-  /** Animation timing */
   delay?: number;
   duration?: number;
-
-  /** Animation behavior */
   yOffset?: number;
-  scale?: boolean;
-  staggerChildren?: number;
-
-  /** Section behavior */
   id?: string;
-  tag?: "section" | "div" | "article" | "main";
+  tag?: "section" | "div" | "article" | "main"; // limiter aux tags HTML sûrs
   triggerOnce?: boolean;
   viewportAmount?: number;
+  staggerChildren?: number;
+  scale?: boolean;
 }
 
 export default function AnimatedSection({
@@ -35,18 +23,15 @@ export default function AnimatedSection({
   delay = 0,
   duration = 0.6,
   yOffset = 40,
-  scale = false,
-  staggerChildren,
   id,
   tag = "section",
   triggerOnce = true,
   viewportAmount = 0.2,
+  staggerChildren,
+  scale = false,
   ...motionProps
 }: AnimatedSectionProps) {
-  /**
-   * Sélection sécurisée du composant motion
-   * (évite motion[tag] → erreur TypeScript)
-   */
+  // ✅ On ne fait plus motion[tag], TS-friendly
   const MotionTag =
     tag === "div"
       ? motion.div
@@ -54,28 +39,11 @@ export default function AnimatedSection({
       ? motion.article
       : tag === "main"
       ? motion.main
-      : motion.section;
+      : motion.section; // default section
 
-  /**
-   * Variants Framer Motion
-   */
   const variants: Variants = {
-    hidden: {
-      opacity: 0,
-      y: yOffset,
-      scale: scale ? 0.95 : 1,
-    },
-    visible: {
-      opacity: 1,
-      y: 0,
-      scale: 1,
-      transition: {
-        staggerChildren,
-        duration,
-        delay,
-        ease: "easeOut",
-      },
-    },
+    hidden: { opacity: 0, y: yOffset, scale: scale ? 0.95 : 1 },
+    visible: { opacity: 1, y: 0, scale: 1, transition: { staggerChildren } },
   };
 
   return (
@@ -85,6 +53,7 @@ export default function AnimatedSection({
       initial="hidden"
       whileInView="visible"
       viewport={{ once: triggerOnce, amount: viewportAmount }}
+      transition={{ duration, delay, ease: "easeOut" }}
       variants={variants}
       {...motionProps}
     >
