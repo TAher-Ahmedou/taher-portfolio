@@ -2,7 +2,6 @@
 "use client";
 
 import { Suspense } from "react";
-import { motion } from "framer-motion";
 
 import Hero from "@/components/Hero";
 import About from "@/components/About";
@@ -13,81 +12,59 @@ import Skills from "@/components/Skills";
 import Contact from "@/components/Contact";
 import Projects from "@/components/Projects";
 
-type SectionWrapperProps = {
-  id: string;
-  children: React.ReactNode;
-  className?: string;
-};
-
-// Animated Section Wrapper
-const SectionWrapper = ({
-  id,
-  children,
-  className = "",
-}: SectionWrapperProps) => (
-  <motion.section
-    id={id}
-    role="region"
-    aria-labelledby={`${id}-title`}
-    className={`scroll-mt-20 ${className}`}
-    initial={{ opacity: 0, y: 30 }}
-    whileInView={{ opacity: 1, y: 0 }}
-    viewport={{ once: true, amount: 0.3 }}
-    transition={{ duration: 0.6 }}
-  >
-    {children}
-  </motion.section>
-);
-
 export default function Home() {
   return (
     <main className="min-h-screen flex flex-col gap-28 scroll-smooth">
-      
-      <SectionWrapper id="home">
+
+      <section id="home" className="scroll-mt-20">
         <Suspense fallback={<div className="text-center text-gray-400 py-24">Loading Hero...</div>}>
           <Hero />
         </Suspense>
-      </SectionWrapper>
+      </section>
 
-      <SectionWrapper id="about">
+      <section id="about" className="scroll-mt-20">
         <Suspense fallback={<div className="text-center text-gray-400 py-24">Loading About...</div>}>
           <About />
         </Suspense>
-      </SectionWrapper>
+      </section>
 
-      <SectionWrapper id="education">
+      <section id="education" className="scroll-mt-20">
         <Suspense fallback={<div className="text-center text-gray-400 py-24">Loading Education...</div>}>
           <Education />
         </Suspense>
-      </SectionWrapper>
+      </section>
 
-      <SectionWrapper id="projects">
-        <Suspense fallback={<div className="text-center text-gray-400 py-24">Loading Projects...</div>}>
+      {/* Academic Projects — animation gérée INTERNEMENT */}
+      <section id="academic-projects" className="scroll-mt-20">
+        <Suspense fallback={<div className="text-center text-gray-400 py-24">Loading Academic Projects...</div>}>
           <AcademicProjects />
         </Suspense>
-      </SectionWrapper>
-      <SectionWrapper id="projects">
+      </section>
+
+      <section id="projects" className="scroll-mt-20">
         <Suspense fallback={<div className="text-center text-gray-400 py-24">Loading Projects...</div>}>
           <Projects />
         </Suspense>
-      </SectionWrapper>
-      <SectionWrapper id="security">
+      </section>
+
+      <section id="security" className="scroll-mt-20">
         <Suspense fallback={<div className="text-center text-gray-400 py-24">Loading Security...</div>}>
           <Security />
         </Suspense>
-      </SectionWrapper>
+      </section>
 
-      <SectionWrapper id="skills">
+      <section id="skills" className="scroll-mt-20">
         <Suspense fallback={<div className="text-center text-gray-400 py-24">Loading Skills...</div>}>
           <Skills />
         </Suspense>
-      </SectionWrapper>
+      </section>
 
-      <SectionWrapper id="contact">
+      <section id="contact" className="scroll-mt-20">
         <Suspense fallback={<div className="text-center text-gray-400 py-24">Loading Contact...</div>}>
           <Contact />
         </Suspense>
-      </SectionWrapper>
+      </section>
+
     </main>
   );
 }
