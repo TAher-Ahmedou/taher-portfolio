@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import AnimatedSection from "@/components/AnimatedSection";
 import { motion } from "framer-motion";
 import {
   FaRobot,
@@ -24,9 +23,9 @@ import {
   SiAmazonaws,
 } from "react-icons/si";
 
-// =======================
-// Liste des projets
-// =======================
+/* =======================
+   Liste des projets
+======================= */
 const projects = [
   {
     title: "OCR + AI Application",
@@ -120,9 +119,9 @@ const projects = [
   },
 ];
 
-// =======================
-// Couleurs par année
-// =======================
+/* =======================
+   Couleurs par année
+======================= */
 const yearColors: Record<string, string> = {
   L1: "bg-orange-500",
   L2: "bg-green-500",
@@ -131,107 +130,103 @@ const yearColors: Record<string, string> = {
 
 export default function AcademicProjects() {
   const [selectedYear, setSelectedYear] = useState<string | null>(null);
+  const [loaded, setLoaded] = useState(false);
   const sectionRef = useRef<HTMLDivElement>(null);
 
-  // Filtrer les projets par année
+  // Activer le rendu après un petit délai pour WebView
+  useEffect(() => {
+    setTimeout(() => setLoaded(true), 100);
+  }, []);
+
+  // Scroll automatique si hash dans l'URL
+  useEffect(() => {
+    const hash = window.location.hash;
+    if (hash === "#academic-projects" && sectionRef.current) {
+      setTimeout(() => {
+        sectionRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+      }, 300);
+    }
+  }, []);
+
   const filteredProjects = selectedYear
     ? projects.filter((p) => p.semester.startsWith(selectedYear))
     : projects;
 
-  // Scroll automatique si hash dans l'URL (compatible WebView mobile)
-  useEffect(() => {
-    const handleScrollToHash = () => {
-      if (window.location.hash === "#academic-projects" && sectionRef.current) {
-        sectionRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
-      }
-    };
-
-    // Timeout pour s'assurer que le DOM est prêt
-    setTimeout(handleScrollToHash, 500);
-
-    // Écoute des changements de hash dynamiques
-    window.addEventListener("hashchange", handleScrollToHash);
-
-    return () => window.removeEventListener("hashchange", handleScrollToHash);
-  }, []);
+  if (!loaded) return null; // Évite que la section ne disparaisse sur WebView
 
   return (
-    <section ref={sectionRef} id="academic-projects">
-      <AnimatedSection className="max-w-6xl mx-auto px-6 py-20" yOffset={50}>
-        {/* Titre */}
-        <motion.h2
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          viewport={{ once: true }}
-          className="text-3xl md:text-4xl font-extrabold mb-6 text-white text-center tracking-tight"
-        >
-          Academic Projects
-        </motion.h2>
+    <section ref={sectionRef} id="academic-projects" className="max-w-6xl mx-auto px-6 py-20">
+      {/* Titre */}
+      <motion.h2
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+        className="text-3xl md:text-4xl font-extrabold mb-6 text-white text-center tracking-tight"
+      >
+        Academic Projects
+      </motion.h2>
 
-        <p className="text-gray-400 mb-12 text-center max-w-3xl mx-auto">
-          Projects developed throughout my Licence degree, showcasing web, backend, cloud, and big data expertise.
-        </p>
+      <p className="text-gray-400 mb-12 text-center max-w-3xl mx-auto">
+        Projects developed throughout my Licence degree, showcasing web, backend, cloud, and big data expertise.
+      </p>
 
-        {/* Filtre années */}
-        <div className="flex justify-center gap-4 mb-12 flex-wrap">
-          {Object.entries(yearColors).map(([year, color]) => (
-            <button
-              key={year}
-              onClick={() => setSelectedYear(selectedYear === year ? null : year)}
-              className={`px-4 py-2 rounded-full font-semibold transition-all ${
-                selectedYear === year
-                  ? `${color} text-white scale-110 shadow-lg`
-                  : "bg-gray-800 text-gray-300 hover:scale-105 hover:bg-gray-700"
-              }`}
-            >
-              {year}
-            </button>
-          ))}
-        </div>
+      {/* Filtre années */}
+      <div className="flex justify-center gap-4 mb-12 flex-wrap">
+        {Object.entries(yearColors).map(([year, color]) => (
+          <button
+            key={year}
+            onClick={() => setSelectedYear(selectedYear === year ? null : year)}
+            className={`px-4 py-2 rounded-full font-semibold transition-all ${
+              selectedYear === year
+                ? `${color} text-white scale-110 shadow-lg`
+                : "bg-gray-800 text-gray-300 hover:scale-105 hover:bg-gray-700"
+            }`}
+          >
+            {year}
+          </button>
+        ))}
+      </div>
 
-        {/* Cartes projets */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {filteredProjects.map((project, index) => (
-            <motion.div
-              key={project.title}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.1 }}
-              viewport={{ once: true }}
-              whileHover={{
-                scale: 1.05,
-                y: -5,
-                boxShadow: "0 15px 35px rgba(0,0,0,0.5)",
-              }}
-              className={`border-l-4 rounded-xl p-6 ${project.color} ${project.bgColor} backdrop-blur-md`}
-            >
-              <div className="flex justify-between items-center mb-3">
-                <span className="text-xs text-gray-300 font-medium">{project.semester}</span>
-                <div className="flex gap-2">
-                  {project.icons.map((Icon, i) => (
-                    <Icon key={i} size={20} className="text-gray-300 hover:text-white transition-colors" />
-                  ))}
-                </div>
-              </div>
-
-              <h3 className="text-xl md:text-2xl font-bold text-white mb-2">{project.title}</h3>
-              <p className="text-gray-300 text-sm md:text-base">{project.description}</p>
-
-              <div className="flex flex-wrap gap-2 mt-4">
-                {project.technologies.map((tech) => (
-                  <span
-                    key={tech}
-                    className="text-xs px-3 py-1 bg-gray-800/60 rounded-full text-gray-200 font-medium hover:bg-indigo-500 hover:text-white transition-colors"
-                  >
-                    {tech}
-                  </span>
+      {/* Cartes projets */}
+      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {filteredProjects.map((project, index) => (
+          <motion.div
+            key={project.title}
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: index * 0.1 }}
+            whileHover={{
+              scale: 1.05,
+              y: -5,
+              boxShadow: "0 15px 35px rgba(0,0,0,0.5)",
+            }}
+            className={`border-l-4 rounded-xl p-6 ${project.color} ${project.bgColor} backdrop-blur-md`}
+          >
+            <div className="flex justify-between items-center mb-3">
+              <span className="text-xs text-gray-300 font-medium">{project.semester}</span>
+              <div className="flex gap-2">
+                {project.icons.map((Icon, i) => (
+                  <Icon key={i} size={20} className="text-gray-300 hover:text-white transition-colors" />
                 ))}
               </div>
-            </motion.div>
-          ))}
-        </div>
-      </AnimatedSection>
+            </div>
+
+            <h3 className="text-xl md:text-2xl font-bold text-white mb-2">{project.title}</h3>
+            <p className="text-gray-300 text-sm md:text-base">{project.description}</p>
+
+            <div className="flex flex-wrap gap-2 mt-4">
+              {project.technologies.map((tech) => (
+                <span
+                  key={tech}
+                  className="text-xs px-3 py-1 bg-gray-800/60 rounded-full text-gray-200 font-medium hover:bg-indigo-500 hover:text-white transition-colors"
+                >
+                  {tech}
+                </span>
+              ))}
+            </div>
+          </motion.div>
+        ))}
+      </div>
     </section>
   );
 }

@@ -10,18 +10,20 @@ const inter = Inter({
   weight: ["400", "500", "700"],
 });
 
+// =======================
+// Metadata compatible Next.js 13
+// =======================
 export const metadata: Metadata = {
   title: "Taher Ahmedou Portfolio",
   description: "Backend & Full-Stack Developer | Cyber Security | Next.js Portfolio",
-  viewport: "width=device-width, initial-scale=1",
+  metadataBase: new URL("https://ton-domaine.com"), // <-- TON DOMAIN PROD
   icons: {
     icon: "/favicon.ico",
   },
-  themeColor: "#000000",
   openGraph: {
     title: "Taher Ahmedou Portfolio",
     description: "Backend & Full-Stack Developer | Cyber Security | Next.js Portfolio",
-    url: "https://yourdomain.com",
+    url: "https://ton-domaine.com",
     siteName: "Taher Ahmedou Portfolio",
     type: "website",
     images: [
@@ -41,15 +43,29 @@ export const metadata: Metadata = {
   },
 };
 
+// =======================
+// Viewport & themeColor export séparé
+// =======================
+export const viewport = {
+  width: "device-width",
+  initialScale: 1,
+};
+
+export const themeColor = [
+  { media: "(prefers-color-scheme: light)", color: "white" },
+  { media: "(prefers-color-scheme: dark)", color: "black" },
+];
+
+// =======================
+// Layout principal
+// =======================
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html
       lang="en"
       className="scroll-smooth bg-black text-white dark:bg-gray-900 dark:text-gray-100"
     >
-      <body
-        className={`${inter.className} font-sans min-h-screen flex flex-col`}
-      >
+      <body className={`${inter.className} font-sans min-h-screen flex flex-col`}>
         {/* Main content */}
         <main role="main" className="flex-1">
           {children}
