@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState } from "react";
 import { motion } from "framer-motion";
 import {
   FaRobot,
@@ -23,9 +23,9 @@ import {
   SiAmazonaws,
 } from "react-icons/si";
 
-/* =======================
-   Liste des projets
-======================= */
+// =======================
+// Liste des projets
+// =======================
 const projects = [
   {
     title: "OCR + AI Application",
@@ -119,9 +119,9 @@ const projects = [
   },
 ];
 
-/* =======================
-   Couleurs par année
-======================= */
+// =======================
+// Couleurs par année
+// =======================
 const yearColors: Record<string, string> = {
   L1: "bg-orange-500",
   L2: "bg-green-500",
@@ -130,32 +130,13 @@ const yearColors: Record<string, string> = {
 
 export default function AcademicProjects() {
   const [selectedYear, setSelectedYear] = useState<string | null>(null);
-  const [loaded, setLoaded] = useState(false);
-  const sectionRef = useRef<HTMLDivElement>(null);
-
-  // Activer le rendu après un petit délai pour WebView
-  useEffect(() => {
-    setTimeout(() => setLoaded(true), 100);
-  }, []);
-
-  // Scroll automatique si hash dans l'URL
-  useEffect(() => {
-    const hash = window.location.hash;
-    if (hash === "#academic-projects" && sectionRef.current) {
-      setTimeout(() => {
-        sectionRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
-      }, 300);
-    }
-  }, []);
 
   const filteredProjects = selectedYear
     ? projects.filter((p) => p.semester.startsWith(selectedYear))
     : projects;
 
-  if (!loaded) return null; // Évite que la section ne disparaisse sur WebView
-
   return (
-    <section ref={sectionRef} id="academic-projects" className="max-w-6xl mx-auto px-6 py-20">
+    <section id="academic-projects" className="max-w-6xl mx-auto px-6 py-20">
       {/* Titre */}
       <motion.h2
         initial={{ opacity: 0, y: 30 }}
