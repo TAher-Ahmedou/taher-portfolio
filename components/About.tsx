@@ -104,8 +104,8 @@ export default function About() {
             <h3 className="text-white font-semibold mb-4">Languages</h3>
             <div className="flex flex-wrap gap-3">
               <LanguageBadge flag="🇸🇦" text="Arabic — Native" />
-              <LanguageBadge flag="🇫🇷" text="French — C1" />
-              <LanguageBadge flag="🇬🇧" text="English — B1" />
+              <LanguageBadge flag="🇫🇷" text="French — B2" />
+              <LanguageBadge flag="🇬🇧" text="English — A3" />
             </div>
           </div>
 
